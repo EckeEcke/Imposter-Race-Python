@@ -9,7 +9,6 @@ from constants import GAME_WIDTH, GAME_HEIGHT
 from draw import draw_everything
 from assets import load_game_data, load_fonts, create_chars
 
-# 1. Initialisierung
 pygame.init()
 pygame.joystick.init()
 pygame.mixer.init()
@@ -18,7 +17,6 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 
 NAME_FONT, CUSTOM_FONT = load_fonts(base_path)
 
-# Fenster & Zeit
 screen = pygame.display.set_mode(
     (0, 0),
     pygame.FULLSCREEN
@@ -32,7 +30,6 @@ icon_image = pygame.image.load(os.path.join(base_path, "assets", "icon.png"))
 pygame.display.set_icon(icon_image)
 pygame.display.set_caption("Imposter Race")
 
-# --- START ---
 loaded_assets = load_game_data(base_path)
 loaded_chars = create_chars(base_path)
 
@@ -50,7 +47,6 @@ intro_sheets = [
 ]
 
 intro_chars = [
-            # Wir setzen sie auf verschiedene Höhen und geben ihnen die festen Sheets
             Character(0, 550, intro_sheets[0], 999),
             Character(-80, 580, intro_sheets[1], 998),
             Character(-10, 610, intro_sheets[2], 997),
@@ -67,7 +63,7 @@ def create_new_game_state(loaded_chars, loaded_assets, name_font):
         "state": "INTRO",
         "chars": loaded_chars,
         "assets": loaded_assets,
-        "joysticks": {},       # Joysticks werden beim Reset beibehalten, später überschreiben
+        "joysticks": {},
         "char_mapping": {},
         "winner": "NOBODY",
         "players": [
@@ -79,7 +75,6 @@ def create_new_game_state(loaded_chars, loaded_assets, name_font):
         "intro_chars": intro_chars,
     }
 
-# Initialer Game State
 game_state = create_new_game_state(loaded_chars, loaded_assets, NAME_FONT)
 
 def reset_game(game_state, loaded_assets, name_font):
@@ -107,7 +102,6 @@ def reset_game(game_state, loaded_assets, name_font):
         "intro_chars": intro_chars,
     })
 
-    # Crosshair-Zuweisung wiederherstellen
     all_jids = sorted(preserved_joysticks.keys())
     for i, jid in enumerate(all_jids):
         if i < len(players):
@@ -118,7 +112,7 @@ while True:
     if not event_handler(game_state): break
     update_game(game_state, dt, loaded_assets)
     draw_everything(game_surface, game_state, NAME_FONT, CUSTOM_FONT)
-    screen.fill((0, 0, 0))  # Schwarzer Hintergrund
+    screen.fill((0, 0, 0))
 
     scale = min(
         SCREEN_WIDTH / GAME_WIDTH,

@@ -71,7 +71,6 @@ def event_handler(game_data):
     return True
 
 def _update_mappings(game_data):
-    """Sortiert die IDs und weist P1, P2 etc. neu zu"""
     all_jids = sorted(game_data["joysticks"].keys())
     game_data["char_mapping"] = {}
     for i, current_jid in enumerate(all_jids):

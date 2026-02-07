@@ -6,11 +6,9 @@ class Character:
     def __init__(self, x, y, sheet, char_id):
         self.char_id = char_id
         self.pos = pygame.Vector2(x, y)
-        self.state = "idle"  # Mögliche Zustände: "idle", "moving", "running", "is_dead"
+        self.state = "idle"  # possible states: "idle", "moving", "running", "is_dead", "taunt"
         self.is_player = False
         self.assigned_player = None
-
-        # Animationen laden (wir nutzen deine get_animation_row Funktion intern)
         self.animations = {
             "idle":    self.get_animation_row(sheet, 0, 64, 64, 4),
             "moving":  self.get_animation_row(sheet, 2, 64, 64, 6),
@@ -23,33 +21,26 @@ class Character:
         self.anim_timer = 0
         self.ai_timer = random.uniform(1.0, 4.0)
         
-        # Das aktuelle Bild für die Hitbox-Berechnung
+        # define hitbox
         self.image = self.animations["idle"][0]
         self.hitbox = self.image.get_rect(topleft=(x, y)).inflate(-40, -40)
 
     def update(self, dt):
-        # 1. Animation vorantreiben
         self.anim_timer += dt
         if self.anim_timer >= ANIM_SPEED:
             self.anim_timer = 0
             frames = self.animations[self.state]
-            
-            # Spezialfall Tod: Animation stoppt beim letzten Frame
             if self.state == "is_dead" and self.current_frame == len(frames) - 1:
-                pass 
+                pass
             else:
                 self.current_frame = (self.current_frame + 1) % len(frames)
             
             self.image = frames[self.current_frame]
-
-        # 2. Bewegung basierend auf Zustand
         if self.state == "moving":
             self.pos.x += WALK_SPEED * dt
         elif self.state == "running":
             self.pos.x += RUN_SPEED * dt
-
-        # 3. Hitbox aktualisieren
-        self.hitbox.topleft = (self.pos.x + 20, self.pos.y + 20) # Offset für zentrierte Hitbox
+        self.hitbox.topleft = (self.pos.x + 20, self.pos.y + 20)
 
     def update_ai(self, dt):
         if self.is_player or self.state == "is_dead":

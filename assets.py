@@ -9,11 +9,8 @@ def load_fonts(base_path):
     return name_font, custom_font
 
 def load_game_data(base_path):
-    # Musik laden
-    try:
-        music_path = os.path.join(base_path, "assets", "music.mp3")
-        pygame.mixer.music.load(music_path)
-    except: print("Musik konnte nicht geladen werden")
+    music_path = os.path.join(base_path, "assets", "music.mp3")
+    pygame.mixer.music.load(music_path)
 
     goal_img = pygame.image.load(os.path.join(base_path, "assets", "goal.jpg")).convert_alpha()
     
@@ -45,5 +42,5 @@ def create_chars(base_path):
             new_char = Character(25, (i-1)*40, sheet, i)
             chars.append(new_char)
         except: 
-            print(f"Ladefehler Char {i}")
+            print(f"Error loading Char {i}")
     return chars

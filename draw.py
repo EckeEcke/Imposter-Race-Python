@@ -28,10 +28,7 @@ def draw_everything(screen, game_data, font_intro, font_game):
 
     elif game_data["state"] == "INTRO":
         num_players = len(game_data["joysticks"])
-        # Erzeugt roten Text mit schwarzer Outline (2 Pixel dick)
         title = render_outline("IMPOSTER RACE", font_game, (255, 0, 0), (255, 255, 255), 2)
-
-        # Status-Text
         status_color = (0, 225, 0) if num_players >= 2 else (150, 150, 150)
         status_text = f"Players ready: {num_players} / 4"
         if num_players < 2:
@@ -42,8 +39,6 @@ def draw_everything(screen, game_data, font_intro, font_game):
         status_surf = font_intro.render(status_text, True, status_color)
 
         for char in game_data["intro_chars"]:
-            # Da wir im Intro sind, sorgen wir hier für Bewegung
-            # (Oder du machst das sauber in update_game)
             char.state = "running"
             char.draw(screen)
 
