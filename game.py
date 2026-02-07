@@ -5,7 +5,7 @@ from player import Player
 from character import Character
 from event_handler import event_handler
 from game_updater import update_game
-from constants import GAME_WIDTH, GAME_HEIGHT
+from constants import GAME_WIDTH, GAME_HEIGHT, PLAYER_COLORS
 from draw import draw_everything
 from assets import load_game_data, load_fonts, create_chars
 
@@ -67,10 +67,10 @@ def create_new_game_state(loaded_chars, loaded_assets, name_font):
         "char_mapping": {},
         "winner": "NOBODY",
         "players": [
-            Player("P1", (0, 0, 255), "crosshair_blue", sel[0], name_font),
-            Player("P2", (255, 0, 0), "crosshair_red", sel[1], name_font),
-            Player("P3", (0, 255, 0), "crosshair_green", sel[2], name_font),
-            Player("P4", (255, 165, 0), "crosshair_orange", sel[3], name_font)
+            Player("P1", PLAYER_COLORS["P1"], "crosshair_blue", sel[0], name_font),
+            Player("P2", PLAYER_COLORS["P2"], "crosshair_red", sel[1], name_font),
+            Player("P3", PLAYER_COLORS["P3"], "crosshair_green", sel[2], name_font),
+            Player("P4", PLAYER_COLORS["P4"], "crosshair_orange", sel[3], name_font)
         ],
         "intro_chars": intro_chars,
     }
@@ -84,10 +84,10 @@ def reset_game(game_state, loaded_assets, name_font):
     sel = random.sample(range(num_available), 4)
 
     players = [
-        Player("P1", (0, 0, 255), "crosshair_blue", sel[0], name_font),
-        Player("P2", (255, 0, 0), "crosshair_red", sel[1], name_font),
-        Player("P3", (0, 255, 0), "crosshair_green", sel[2], name_font),
-        Player("P4", (255, 165, 0), "crosshair_orange", sel[3], name_font)
+        Player("P1", PLAYER_COLORS["P1"], "crosshair_blue", sel[0], name_font),
+        Player("P2", PLAYER_COLORS["P2"], "crosshair_red", sel[1], name_font),
+        Player("P3", PLAYER_COLORS["P3"], "crosshair_green", sel[2], name_font),
+        Player("P4", PLAYER_COLORS["P4"], "crosshair_orange", sel[3], name_font)
     ]
 
     game_state.clear()

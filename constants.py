@@ -4,3 +4,11 @@ WALK_SPEED = 20
 RUN_SPEED = 40
 ANIM_SPEED = 0.1
 FINISH_LINE_X = GAME_WIDTH - 80
+
+PLAYER_COLORS = {
+    "P1": (0, 0, 255),
+    "P2": (255, 0, 0),
+    "P3": (0, 255, 0),
+    "P4": (255, 255, 0),
+    "NOBODY": (150, 150, 150)
+}

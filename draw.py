@@ -1,5 +1,5 @@
 import pygame
-from constants import FINISH_LINE_X, GAME_WIDTH, GAME_HEIGHT
+from constants import FINISH_LINE_X, GAME_WIDTH, GAME_HEIGHT, PLAYER_COLORS
 from text_outline import render_outline
 
 def draw_everything(screen, game_data, font_intro, font_game):
@@ -20,8 +20,9 @@ def draw_everything(screen, game_data, font_intro, font_game):
         if game_data["state"] == "GAME OVER":
             overlay = pygame.Surface((GAME_WIDTH, GAME_HEIGHT), pygame.SRCALPHA)
             overlay.fill((8, 8, 8, 88))
-            title = render_outline("GAME OVER!", font_game, (255, 0, 0), (255, 255, 255), 2)
-            sub_title = render_outline(f"{game_data['winner']} WINS!", font_game, (255, 0, 0), (255, 255, 255), 2)
+            text_color = PLAYER_COLORS[game_data["winner"]]
+            title = render_outline("GAME OVER!", font_game, text_color, (255, 255, 255), 2)
+            sub_title = render_outline(f"{game_data['winner']} WINS!", font_game, text_color, (255, 255, 255), 2)
             screen.blit(overlay, (0, 0))
             screen.blit(title, title.get_rect(center=(GAME_WIDTH / 2, 300)))
             screen.blit(sub_title, sub_title.get_rect(center=(GAME_WIDTH / 2, 400)))
