@@ -1,6 +1,14 @@
 from constants import FINISH_LINE_X
 
 def update_game(game_data, dt, assets):
+    if game_data["state"] == "INTRO":
+        for char in game_data["intro_chars"]:
+            char.state = "running"
+            char.update(dt)
+            # Endlos-Schleife: Wenn rechts raus, links wieder rein
+            if char.pos.x > 1000: 
+                char.pos.x = -64
+        return # Hier stoppen, damit die echte Spiellogik nicht läuft
     if game_data["state"] != "GAME": return
 
     # 1. ALLE CHARAKTERE AKTUALISIEREN
