@@ -27,6 +27,7 @@ def load_game_data(base_path):
         "crosshair_red": pygame.image.load(os.path.join(base_path, "assets", "crosshair_red.png")).convert_alpha(),
         "crosshair_green": pygame.image.load(os.path.join(base_path, "assets", "crosshair_green.png")).convert_alpha(),
         "crosshair_orange": pygame.image.load(os.path.join(base_path, "assets", "crosshair_orange.png")).convert_alpha(),
+        "bullet": pygame.image.load(os.path.join(base_path, "assets", "bullet.png")).convert_alpha(),
         "goal": goal_scaled,
         "background": pygame.image.load(os.path.join(base_path, "assets", "background.png")).convert_alpha(),
         "shot_sound": pygame.mixer.Sound(os.path.join(base_path, "assets", "shot.mp3")),

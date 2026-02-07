@@ -8,7 +8,8 @@ class Character:
         self.pos = pygame.Vector2(x, y)
         self.state = "idle"  # Mögliche Zustände: "idle", "moving", "running", "is_dead"
         self.is_player = False
-        
+        self.assigned_player = None
+
         # Animationen laden (wir nutzen deine get_animation_row Funktion intern)
         self.animations = {
             "idle":    self.get_animation_row(sheet, 0, 64, 64, 4),

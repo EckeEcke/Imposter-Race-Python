@@ -12,6 +12,7 @@ class Player:
         self.font = font
         self.pos = pygame.Vector2(400, 310)
         self.shot_used = False
+        self.killed = False
 
     def update(self, joy, dt):
         if not joy:
@@ -22,7 +23,7 @@ class Player:
         self.pos.x = max(0, min(self.pos.x, GAME_WIDTH))
         self.pos.y = max(0, min(self.pos.y, GAME_HEIGHT))
 
-    def shoot(self, chars, assets):
+    def shoot(self, chars, assets, players):
         if self.shot_used:
             return
         self.shot_used = True
@@ -33,14 +34,23 @@ class Player:
 
         for c in chars:
             if c.state != "is_dead" and c.hitbox.colliderect(shot_rect):
-                c.kill()
+                c.kill()    
+                if c.is_player:
+                    for p in players:
+                        if p.label == c.assigned_player:
+                            p.killed = True
+                            break
 
     def draw_crosshair(self, surface, assets):
-        if self.shot_used:
+        if self.killed:
             return
-        img = assets[self.crosshair_name]
-        rect = img.get_rect(center=self.pos)
-        surface.blit(img, rect)
+        img_crosshair = assets[self.crosshair_name]
+        rect = img_crosshair.get_rect(center=self.pos)
+        surface.blit(img_crosshair, rect)
+        if not self.shot_used:
+            img_bullet = assets["bullet"]
+            scaled_img_bullet = pygame.transform.scale(img_bullet, (8, 24))
+            surface.blit(scaled_img_bullet, (rect.x - scaled_img_bullet.get_width(), rect.centery - scaled_img_bullet.get_height() / 2))
         txt = render_outline(self.label, self.font,self.color, (255, 255, 255), 2)
         surface.blit(txt, (rect.right + 5, rect.top - 10))
 

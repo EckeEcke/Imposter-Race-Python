@@ -41,6 +41,8 @@ def event_handler(game_data):
                         if i < len(game_data["players"]):
                             char_idx = game_data["players"][i].char_idx
                             game_data["chars"][char_idx].is_player = True
+                            game_data["chars"][char_idx].assigned_player = game_data["players"][i].label
+
                     game_data["state"] = "GAME"
                     pygame.mixer.music.play(-1)
         elif game_data["state"] == "GAME":
@@ -55,7 +57,7 @@ def event_handler(game_data):
             if event.type == pygame.JOYBUTTONDOWN:
                 # Schießen (Button 0)
                 if event.button == 0:
-                    p.shoot(game_data["chars"], game_data["assets"])
+                    p.shoot(game_data["chars"], game_data["assets"], game_data["players"])
 
                 # Bewegen (nur wenn nicht tot)
                 if char.state != "is_dead":
