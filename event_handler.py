@@ -31,10 +31,12 @@ def event_handler(game_data):
         if game_data["state"] == "GAME OVER":
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 9:
+                    game_data["assets"]["confirm_sound"].play()
                     game_data["state"] = "RESET"
 
         if game_data["state"] == "INTRO":
-            if event.type in [pygame.JOYBUTTONDOWN, pygame.KEYDOWN]:
+            if event.type == pygame.JOYBUTTONDOWN:
+                game_data["assets"]["confirm_sound"].play()
                 num_connected = len(game_data["joysticks"])
                 if num_connected >= 2:
                     for i in range(num_connected):
@@ -66,8 +68,18 @@ def event_handler(game_data):
                     if event.button == 3: char.state = "taunt"
 
             if event.type == pygame.JOYBUTTONUP:
-                if char.state != "is_dead" and event.button in [1, 2]:
-                    char.state = "idle"
+                if char.state != "is_dead" and event.button in [1, 2, 3]:
+                    joy = game_data["joysticks"].get(jid)
+                    
+                    if joy:
+                        if joy.get_button(2):
+                            char.state = "running"
+                        elif joy.get_button(1):
+                            char.state = "moving"
+                        elif joy.get_button(3):
+                            char.state = "taunt"
+                        else:
+                            char.state = "idle"
     return True
 
 def _update_mappings(game_data):

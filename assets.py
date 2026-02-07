@@ -28,7 +28,9 @@ def load_game_data(base_path):
         "goal": goal_scaled,
         "background": pygame.image.load(os.path.join(base_path, "assets", "background.png")).convert_alpha(),
         "shot_sound": pygame.mixer.Sound(os.path.join(base_path, "assets", "shot.mp3")),
-        "well_done_sound": pygame.mixer.Sound(os.path.join(base_path, "assets", "well_done.ogg"))
+        "well_done_sound": pygame.mixer.Sound(os.path.join(base_path, "assets", "well_done.ogg")),
+        "confirm_sound": pygame.mixer.Sound(os.path.join(base_path, "assets", "confirm.mp3")),
+
     }
 
     return assets
