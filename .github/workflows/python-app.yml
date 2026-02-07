@@ -2,7 +2,7 @@
 # Additionally a .exe file is being created, downloadable from artifacts
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Build Pygame EXE
+name: Build Cross-Platform Game
 
 on:
   push:
@@ -12,7 +12,11 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -20,24 +24,30 @@ jobs:
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
-        python-version: "3.12" 
+        python-version: "3.12"
 
     - name: Install dependencies
-      shell: powershell
       run: |
         python -m pip install --upgrade pip
-        # Pyinstaller und pygame-ce installieren
-        python -m pip install pyinstaller pygame-ce flake8 pytest
-        if (Test-Path requirements.txt) { python -m pip install -r requirements.txt }
+        python -m pip install pyinstaller pygame-ce
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash
 
-    - name: Build EXE with PyInstaller
-      shell: powershell
+    - name: Build with PyInstaller
       run: |
-        # Stelle sicher, dass der assets Ordner existiert, sonst crashed PyInstaller
-        python -m PyInstaller --onefile --noconsole --add-data "assets;assets" game.py
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          python -m PyInstaller --onefile --noconsole --add-data "assets;assets" game.py
+        else
+          python -m PyInstaller --onefile --noconsole --add-data "assets:assets" game.py
+        fi
+      shell: bash
 
-    - name: Upload EXE artifact
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: game-exe
-        path: dist/*.exe
+        # create a unique name for each artifact based on the OS
+        name: game-${{ matrix.os }}
+        path: |
+          dist/*.exe
+          dist/game
+          dist/game.app
