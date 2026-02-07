@@ -18,6 +18,12 @@ class Player:
         if not joy:
             return
         move = pygame.Vector2(joy.get_axis(0), joy.get_axis(1))
+        DEADZONE = 0.2
+        if move.length() < DEADZONE:
+            move = pygame.Vector2(0, 0)
+        else:
+            pass
+
         self.pos += move * PLAYER_SPEED * dt
 
         self.pos.x = max(0, min(self.pos.x, GAME_WIDTH))

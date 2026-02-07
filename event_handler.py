@@ -1,6 +1,14 @@
 import pygame
 import sys
 
+BUTTON_MAPPING = {
+    "shoot": 3,
+    "move": 0,
+    "run": 1,
+    "taunt": 2,
+    "confirm": 6
+}
+
 def event_handler(game_data):
     for event in pygame.event.get():
         if event.type == pygame.QUIT: return False
@@ -30,7 +38,7 @@ def event_handler(game_data):
 
         if game_data["state"] == "GAME OVER":
             if event.type == pygame.JOYBUTTONDOWN:
-                if event.button == 9:
+                if event.button == BUTTON_MAPPING["confirm"]:
                     game_data["assets"]["confirm_sound"].play()
                     game_data["state"] = "RESET"
 
@@ -57,26 +65,24 @@ def event_handler(game_data):
             char = p.get_character(game_data["chars"])
 
             if event.type == pygame.JOYBUTTONDOWN:
-                # Schießen (Button 0)
-                if event.button == 0:
+                if event.button == BUTTON_MAPPING["shoot"]:
                     p.shoot(game_data["chars"], game_data["assets"], game_data["players"])
 
-                # Bewegen (nur wenn nicht tot)
                 if char.state != "is_dead":
-                    if event.button == 1: char.state = "moving"
-                    if event.button == 2: char.state = "running"
-                    if event.button == 3: char.state = "taunt"
+                    if event.button == BUTTON_MAPPING["move"]: char.state = "moving"
+                    if event.button == BUTTON_MAPPING["run"]: char.state = "running"
+                    if event.button == BUTTON_MAPPING["taunt"]: char.state = "taunt"
 
             if event.type == pygame.JOYBUTTONUP:
-                if char.state != "is_dead" and event.button in [1, 2, 3]:
+                if char.state != "is_dead" and event.button in [BUTTON_MAPPING["move"], BUTTON_MAPPING["run"], BUTTON_MAPPING["taunt"]]:
                     joy = game_data["joysticks"].get(jid)
                     
                     if joy:
-                        if joy.get_button(2):
+                        if joy.get_button(BUTTON_MAPPING["run"]):
                             char.state = "running"
-                        elif joy.get_button(1):
+                        elif joy.get_button(BUTTON_MAPPING["move"]):
                             char.state = "moving"
-                        elif joy.get_button(3):
+                        elif joy.get_button(BUTTON_MAPPING["taunt"]):
                             char.state = "taunt"
                         else:
                             char.state = "idle"
