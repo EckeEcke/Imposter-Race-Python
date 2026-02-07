@@ -36,11 +36,12 @@ jobs:
     - name: Build with PyInstaller
       run: |
         if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          python -m PyInstaller --onefile --noconsole --add-data "assets;assets" game.py
+          python -m PyInstaller --onefile --noconsole --icon="assets/icon.ico" --add-data "assets;assets" game.py
+        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          python -m PyInstaller --onefile --noconsole --add-data "assets:assets" game.py
         else
           python -m PyInstaller --onefile --noconsole --add-data "assets:assets" game.py
         fi
-      shell: bash
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
