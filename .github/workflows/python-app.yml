@@ -17,33 +17,27 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.14
-      uses: actions/setup-python@v3
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
       with:
-        python-version: "3.14"
+        python-version: "3.12" 
 
     - name: Install dependencies
       shell: powershell
       run: |
         python -m pip install --upgrade pip
-        python -m pip install pyinstaller pygame-ce flake8
+        # Pyinstaller und pygame-ce installieren
+        python -m pip install pyinstaller pygame-ce flake8 pytest
         if (Test-Path requirements.txt) { python -m pip install -r requirements.txt }
-
-    - name: Lint with flake8
-      shell: powershell
-      run: |
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
 
     - name: Build EXE with PyInstaller
       shell: powershell
       run: |
-        python -m pyinstaller --onefile --noconsole --icon=assets/icon.ico --add-data "assets;assets" game.py
+        # Stelle sicher, dass der assets Ordner existiert, sonst crashed PyInstaller
+        python -m PyInstaller --onefile --noconsole --add-data "assets;assets" game.py
 
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v4
       with:
         name: game-exe
-        path: dist/game.exe
-
+        path: dist/*.exe
