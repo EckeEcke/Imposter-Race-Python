@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 def event_handler(game_data):
     for event in pygame.event.get():
@@ -7,7 +8,7 @@ def event_handler(game_data):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
-                exit()
+                sys.exit()
 
         if event.type == pygame.JOYDEVICEADDED:
             joy = pygame.joystick.Joystick(event.device_index)

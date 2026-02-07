@@ -39,6 +39,27 @@ loaded_chars = create_chars(base_path)
 num_available = len(loaded_chars)
 sel = random.sample(range(num_available), 4)
 
+intro_sheets = [
+    pygame.image.load(os.path.join(base_path, "assets", "Character 1.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 2.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 3.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 4.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 5.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 10.png")).convert_alpha(),
+    pygame.image.load(os.path.join(base_path, "assets", "Character 11.png")).convert_alpha(),
+]
+
+intro_chars = [
+            # Wir setzen sie auf verschiedene Höhen und geben ihnen die festen Sheets
+            Character(0, 550, intro_sheets[0], 999),
+            Character(-80, 580, intro_sheets[1], 998),
+            Character(-10, 610, intro_sheets[2], 997),
+            Character(-50, 40, intro_sheets[3], 996),
+            Character(-290, 70, intro_sheets[4], 995),
+            Character(-360, 120, intro_sheets[5], 994),
+            Character(-200, 160, intro_sheets[6], 993)
+        ]
+
 def create_new_game_state(loaded_chars, loaded_assets, name_font):
     num_available = len(loaded_chars)
     sel = random.sample(range(num_available), 4)
@@ -54,7 +75,8 @@ def create_new_game_state(loaded_chars, loaded_assets, name_font):
             Player("P2", (255, 0, 0), "crosshair_red", sel[1], name_font),
             Player("P3", (0, 255, 0), "crosshair_green", sel[2], name_font),
             Player("P4", (255, 165, 0), "crosshair_orange", sel[3], name_font)
-        ]
+        ],
+        "intro_chars": intro_chars,
     }
 
 # Initialer Game State
@@ -81,7 +103,8 @@ def reset_game(game_state, loaded_assets, name_font):
         "joysticks": preserved_joysticks,
         "char_mapping": {},
         "winner": "NOBODY",
-        "players": players
+        "players": players,
+        "intro_chars": intro_chars,
     })
 
     # Crosshair-Zuweisung wiederherstellen

@@ -1,6 +1,7 @@
 import pygame
 
 from constants import GAME_WIDTH, GAME_HEIGHT, PLAYER_SPEED
+from text_outline import render_outline
 
 class Player:
     def __init__(self, label, color, crosshair, char_idx, font):
@@ -40,7 +41,7 @@ class Player:
         img = assets[self.crosshair_name]
         rect = img.get_rect(center=self.pos)
         surface.blit(img, rect)
-        txt = self.font.render(self.label, True, self.color)
+        txt = render_outline(self.label, self.font,self.color, (255, 255, 255), 2)
         surface.blit(txt, (rect.right + 5, rect.top - 10))
 
     def get_character(self, chars):

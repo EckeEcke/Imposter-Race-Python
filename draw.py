@@ -1,8 +1,9 @@
 import pygame
 from constants import FINISH_LINE_X, GAME_WIDTH, GAME_HEIGHT
+from text_outline import render_outline
 
 def draw_everything(screen, game_data, font_intro, font_game):
-    screen.fill("white")
+    screen.fill((25,25,25))
     assets = game_data["assets"]
     
     if game_data["state"] == "GAME" or game_data["state"] == "GAME OVER":
@@ -19,16 +20,17 @@ def draw_everything(screen, game_data, font_intro, font_game):
         if game_data["state"] == "GAME OVER":
             overlay = pygame.Surface((GAME_WIDTH, GAME_HEIGHT), pygame.SRCALPHA)
             overlay.fill((8, 8, 8, 88))
-            title = font_game.render("GAME OVER!", True, (255, 0, 0))
-            sub_title = font_game.render(f"{game_data['winner']} WINS!", True, (255, 0, 0))
+            title = render_outline("GAME OVER!", font_game, (255, 0, 0), (255, 255, 255), 2)
+            sub_title = render_outline(f"{game_data['winner']} WINS!", font_game, (255, 0, 0), (255, 255, 255), 2)
             screen.blit(overlay, (0, 0))
             screen.blit(title, title.get_rect(center=(GAME_WIDTH / 2, 300)))
             screen.blit(sub_title, sub_title.get_rect(center=(GAME_WIDTH / 2, 400)))
 
     elif game_data["state"] == "INTRO":
         num_players = len(game_data["joysticks"])
-        title = font_game.render("IMPOSTER RACE", True, (255, 0, 0))
-        
+        # Erzeugt roten Text mit schwarzer Outline (2 Pixel dick)
+        title = render_outline("IMPOSTER RACE", font_game, (255, 0, 0), (255, 255, 255), 2)
+
         # Status-Text
         status_color = (0, 225, 0) if num_players >= 2 else (150, 150, 150)
         status_text = f"Players ready: {num_players} / 4"
@@ -38,6 +40,12 @@ def draw_everything(screen, game_data, font_intro, font_game):
             status_text += " - PRESS START"
             
         status_surf = font_intro.render(status_text, True, status_color)
+
+        for char in game_data["intro_chars"]:
+            # Da wir im Intro sind, sorgen wir hier für Bewegung
+            # (Oder du machst das sauber in update_game)
+            char.state = "running"
+            char.draw(screen)
 
         screen.blit(title, title.get_rect(center=(GAME_WIDTH / 2, 300)))
         screen.blit(status_surf, status_surf.get_rect(center=(GAME_WIDTH / 2, 400)))
