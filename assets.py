@@ -12,7 +12,7 @@ def load_game_data(base_path):
     music_path = os.path.join(base_path, "assets", "music.mp3")
     pygame.mixer.music.load(music_path)
 
-    goal_img = pygame.image.load(os.path.join(base_path, "assets", "goal.jpg")).convert_alpha()
+    goal_img = pygame.image.load(os.path.join(base_path, "assets", "goal.png")).convert_alpha()
     
     goal_aspect_ratio = goal_img.get_width() / goal_img.get_height()
     new_goal_width = int(goal_aspect_ratio * GAME_HEIGHT)
