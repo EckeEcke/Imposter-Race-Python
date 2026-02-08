@@ -26,6 +26,9 @@ def draw_everything(screen, game_data, font_intro, font_game):
             screen.blit(overlay, (0, 0))
             screen.blit(title, title.get_rect(center=(GAME_WIDTH / 2, 300)))
             screen.blit(sub_title, sub_title.get_rect(center=(GAME_WIDTH / 2, 400)))
+            winner_char = game_data.get("winner_char")
+            if winner_char and winner_char.is_player:
+                winner_char.draw_victory(screen, GAME_WIDTH / 2, GAME_HEIGHT / 2 + 150)
 
     elif game_data["state"] == "INTRO":
         num_players = len(game_data["joysticks"])

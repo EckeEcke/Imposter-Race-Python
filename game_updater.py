@@ -8,6 +8,10 @@ def update_game(game_data, dt, assets):
             if char.pos.x > 1000: 
                 char.pos.x = -64
         return
+    
+    if game_data.get("winner_char") is not None:
+        game_data["winner_char"].update(dt)
+
     if game_data["state"] != "GAME": return
 
     for char in game_data["chars"]:
@@ -27,7 +31,8 @@ def update_game(game_data, dt, assets):
         if char.pos.x + 20 > FINISH_LINE_X and char.state != "is_dead":
             game_data["state"] = "GAME OVER"
             assets["well_done_sound"].play()
-            
+            game_data["winner_char"] = char
+
             if char.is_player:
                 for p in game_data["players"]:
                     if p.char_idx == i:

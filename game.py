@@ -73,6 +73,7 @@ def create_new_game_state(loaded_chars, loaded_assets, name_font):
             Player("P4", PLAYER_COLORS["P4"], "crosshair_orange", sel[3], name_font)
         ],
         "intro_chars": intro_chars,
+        "winner_char": None
     }
 
 game_state = create_new_game_state(loaded_chars, loaded_assets, NAME_FONT)
@@ -100,6 +101,7 @@ def reset_game(game_state, loaded_assets, name_font):
         "winner": "NOBODY",
         "players": players,
         "intro_chars": intro_chars,
+        "winner_char": None
     })
 
     all_jids = sorted(preserved_joysticks.keys())

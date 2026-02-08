@@ -14,7 +14,9 @@ class Character:
             "moving":  self.get_animation_row(sheet, 2, 64, 64, 6),
             "running": self.get_animation_row(sheet, 3, 64, 64, 6),
             "is_dead": self.get_animation_row(sheet, 6, 64, 64, 8),
-            "taunt":   self.get_animation_row(sheet, 5, 64, 64, 4)
+            "taunt":   self.get_animation_row(sheet, 5, 64, 64, 4),
+            "victory": self.get_animation_row(sheet, 14, 64, 64, 6),
+
         }
         
         self.current_frame = 0
@@ -52,6 +54,13 @@ class Character:
 
     def draw(self, surface):
         surface.blit(self.image, self.pos)
+
+    def draw_victory(self, surface, x, y):
+        victory_frames = self.animations["victory"]
+        frame = victory_frames[self.current_frame % len(victory_frames)]
+        big_img = pygame.transform.scale_by(frame, 2.5)
+        rect = big_img.get_rect(center=(x, y))
+        surface.blit(big_img, rect)
 
     def kill(self):
         self.state = "is_dead"
