@@ -26,7 +26,7 @@ Install the required Python dependency:
 pip install pygame
 
 Run the game:
-python game.py
+python main.py
 
 ## 🎮 Fullscreen & Display
 
